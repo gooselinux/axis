@@ -1,0 +1,361 @@
+--- axis-1_2/src/org/apache/axis/SOAPPart.java~	2005-05-03 20:29:14.000000000 +0100
++++ axis-1_2/src/org/apache/axis/SOAPPart.java	2005-06-07 11:28:33.000000000 +0100
+@@ -33,6 +33,7 @@
+ import org.w3c.dom.Attr;
+ import org.w3c.dom.CDATASection;
+ import org.w3c.dom.Comment;
++import org.w3c.dom.DOMConfiguration;
+ import org.w3c.dom.DOMException;
+ import org.w3c.dom.DOMImplementation;
+ import org.w3c.dom.Document;
+@@ -45,6 +46,7 @@
+ import org.w3c.dom.NodeList;
+ import org.w3c.dom.ProcessingInstruction;
+ import org.w3c.dom.Text;
++import org.w3c.dom.UserDataHandler;
+ import org.xml.sax.InputSource;
+ import org.xml.sax.SAXException;
+ 
+@@ -1273,5 +1275,102 @@
+     public boolean isBodyStream() {
+         return (currentForm == SOAPPart.FORM_INPUTSTREAM || currentForm == SOAPPart.FORM_BODYINSTREAM);        
+     }
++
++    /**
++     *  DOM Level 3 stubs
++     */
++
++    public String getBaseURI() {
++        throw new RuntimeException("not implemented");
++    }
++
++    public boolean getXmlStandalone() {
++        throw new RuntimeException("not implemented");
++    }
++
++    public Object setUserData(
++        String key, Object data, UserDataHandler handler) {
++        throw new RuntimeException("not implemented");
++    }
++    
++    public void setDocumentURI(String documentURI) {
++        throw new RuntimeException("not implemented");
++    }
++
++    public void setXmlStandalone(boolean xmlStandalone) {
++        throw new RuntimeException("not implemented");
++    }
++
++    public Node renameNode(Node n, String namespaceURI, String qualifiedName) {
++        throw new RuntimeException("not implemented");
++    }
++
++    public String getInputEncoding() {
++        throw new RuntimeException("not implemented");
++    }
++
++    public String getXmlEncoding() {
++        throw new RuntimeException("not implemented");
++    }
++
++    public void setTextContent(String textContent) {
++        throw new RuntimeException("not implemented");
++    }
++
++    public boolean isSameNode(Node other) {
++        throw new RuntimeException("not implemented");
++    }
++
++    public String getDocumentURI() {
++        throw new RuntimeException("not implemented");
++    }
++
++    public Object getFeature(String feature, String version) {
++        throw new RuntimeException("not implemented");
++    }
++
++    public boolean isDefaultNamespace(String namespaceURI) {
++        throw new RuntimeException("not implemented");
++    }
++
++    public String lookupPrefix(String namespaceURI) {
++        throw new RuntimeException("not implemented");
++    }
++
++    public boolean isEqualNode(Node arg) {
++        throw new RuntimeException("not implemented");
++    }
++
++    public void setXmlVersion(String xmlVersion) {
++        throw new RuntimeException("not implemented");
++    }
++
++    public String getXmlVersion() {
++        throw new RuntimeException("not implemented");
++    }
++
++    public Object getUserData(String key) {
++        throw new RuntimeException("not implemented");
++    }
++
++    public String getTextContent() {
++        throw new RuntimeException("not implemented");
++    }
++
++    public void normalizeDocument() {
++        throw new RuntimeException("not implemented");
++    }
++
++    public String lookupNamespaceURI(String prefix) {
++        throw new RuntimeException("not implemented");
++    }
++
++    public DOMConfiguration getDomConfig() {
++        throw new RuntimeException("not implemented");
++    }
++
++    public short compareDocumentPosition(Node other) {
++        throw new RuntimeException("not implemented");
++    }
+ }
+ 
+--- axis-1_2/src/org/apache/axis/message/NodeImpl.java~	2005-05-03 20:28:58.000000000 +0100
++++ axis-1_2/src/org/apache/axis/message/NodeImpl.java	2005-06-07 12:22:15.000000000 +0100
+@@ -30,6 +30,8 @@
+ import org.w3c.dom.Node;
+ import org.w3c.dom.NodeList;
+ import org.w3c.dom.Text;
++import org.w3c.dom.TypeInfo;
++import org.w3c.dom.UserDataHandler;
+ import org.xml.sax.Attributes;
+ import org.xml.sax.helpers.AttributesImpl;
+ 
+@@ -834,4 +836,74 @@
+             ((NodeImpl) parent).setDirty(true);
+         }
+     }
++
++    /**
++     *  DOM Level 3 stubs
++     */
++
++    public void setIdAttributeNS(
++        String namespaceURI, String localName, boolean isId) {
++        throw new RuntimeException("not implemented");
++    }
++
++    public void setIdAttribute(String name, boolean isId) {
++        throw new RuntimeException("not implemented");
++    }
++
++    public void setIdAttributeNode(Attr idAttr, boolean isId) {
++        throw new RuntimeException("not implemented");
++    }
++
++    public TypeInfo getSchemaTypeInfo() {
++        throw new RuntimeException("not implemented");
++    }
++
++    public Object setUserData(
++        String key, Object data, UserDataHandler handler) {
++        throw new RuntimeException("not implemented");
++    }
++
++    public String getBaseURI() {
++        throw new RuntimeException("not implemented");
++    }
++
++    public String getTextContent() {
++        throw new RuntimeException("not implemented");
++    }
++
++    public boolean isSameNode(Node other) {
++        throw new RuntimeException("not implemented");
++    }
++
++    public void setTextContent(String textContent) {
++        throw new RuntimeException("not implemented");
++    }
++
++    public Object getUserData(String key) {
++        throw new RuntimeException("not implemented");
++    }
++
++    public boolean isDefaultNamespace(String namespaceURI) {
++        throw new RuntimeException("not implemented");
++    }
++
++    public Object getFeature(String feature, String version) {
++        throw new RuntimeException("not implemented");
++    }
++
++    public boolean isEqualNode(Node arg) {
++        throw new RuntimeException("not implemented");
++    }
++
++    public short compareDocumentPosition(Node other) {
++        throw new RuntimeException("not implemented");
++    }
++
++    public String lookupNamespaceURI(String prefix) {
++        throw new RuntimeException("not implemented");
++    }
++
++    public String lookupPrefix(String namespaceURI) {
++        throw new RuntimeException("not implemented");
++    }
+ }
+--- axis-1_2/src/org/apache/axis/message/SOAPDocumentImpl.java~	2005-05-03 20:29:08.000000000 +0100
++++ axis-1_2/src/org/apache/axis/message/SOAPDocumentImpl.java	2005-06-07 12:31:30.000000000 +0100
+@@ -25,6 +25,7 @@
+ import org.w3c.dom.Attr;
+ import org.w3c.dom.CDATASection;
+ import org.w3c.dom.Comment;
++import org.w3c.dom.DOMConfiguration;
+ import org.w3c.dom.DOMException;
+ import org.w3c.dom.DOMImplementation;
+ import org.w3c.dom.Document;
+@@ -36,6 +37,7 @@
+ import org.w3c.dom.Node;
+ import org.w3c.dom.NodeList;
+ import org.w3c.dom.ProcessingInstruction;
++import org.w3c.dom.UserDataHandler;
+ 
+ import javax.xml.parsers.ParserConfigurationException;
+ import javax.xml.soap.SOAPException;
+@@ -680,4 +682,113 @@
+     public boolean hasAttributes() {
+         throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "");
+     }
++
++    /**
++     *  DOM Level 3 stubs
++     */
++
++    public String getBaseURI() {
++        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "");
++    }
++
++    public boolean getXmlStandalone() {
++        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "");
++    }
++
++    public boolean getStrictErrorChecking() {
++        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "");
++    }
++
++    public void setXmlStandalone(boolean xmlStandalone) {
++        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "");
++    }
++
++    public Node renameNode(Node n, String namespaceURI, String qualifiedName) {
++        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "");
++    }
++
++    public void setStrictErrorChecking(boolean strictErrorChecking) {
++        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "");
++    }
++
++    public Object setUserData(
++        String key, Object data, UserDataHandler handler) {
++        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "");
++    }
++    
++    public String getInputEncoding() {
++        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "");
++    }
++    
++    public String getXmlEncoding() {
++        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "");
++    }
++
++    public void setTextContent(String textContent) {
++        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "");
++    }
++
++    public boolean isSameNode(Node other) {
++        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "");
++    }
++
++    public String getDocumentURI() {
++        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "");
++    }
++
++    public void setDocumentURI(String documentURI) {
++        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "");
++    }
++
++    public Object getFeature(String feature, String version) {
++        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "");
++    }
++
++    public Node adoptNode(Node source) {
++        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "");
++    }
++
++    public boolean isDefaultNamespace(String namespaceURI) {
++        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "");
++    }
++
++    public boolean isEqualNode(Node arg) {
++        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "");
++    }
++
++    public void setXmlVersion(String xmlVersion) {
++        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "");
++    }
++
++    public String getXmlVersion() {
++        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "");
++    }
++
++    public String lookupPrefix(String namespaceURI) {
++        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "");
++    }
++
++    public Object getUserData(String key) {
++        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "");
++    }
++
++    public String getTextContent() {
++        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "");
++    }
++
++    public void normalizeDocument() {
++        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "");
++    }
++
++    public String lookupNamespaceURI(String prefix) {
++        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "");
++    }
++
++    public DOMConfiguration getDomConfig() {
++        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "");
++    }
++
++    public short compareDocumentPosition(Node other) {
++        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "");
++    }
+ }
+--- axis-1_2/src/org/apache/axis/message/Text.java~	2005-05-03 20:29:21.000000000 +0100
++++ axis-1_2/src/org/apache/axis/message/Text.java	2005-06-07 12:34:19.000000000 +0100
+@@ -213,4 +213,19 @@
+         return ( textRep.getData() != null ? textRep.getData().hashCode() : 0 );
+     }
+ 
++    /**
++     *  DOM Level 3 stubs
++     */
++
++    public String getWholeText() {
++        throw new RuntimeException("not implemented");
++    }
++
++    public boolean isElementContentWhitespace() {
++        throw new RuntimeException("not implemented");
++    }
++
++    public org.w3c.dom.Text replaceWholeText(String content) {
++        throw new RuntimeException("not implemented");
++    }
+ }

@@ -1,0 +1,51 @@
+Index: src/org/apache/axis/utils/JavaUtils.java
+===================================================================
+RCS file: /home/cvspublic/ws-axis/java/src/org/apache/axis/utils/JavaUtils.java,v
+retrieving revision 1.118
+diff -u -r1.118 JavaUtils.java
+--- src/org/apache/axis/utils/JavaUtils.java	26 Apr 2005 21:06:36 -0000	1.118
++++ src/org/apache/axis/utils/JavaUtils.java	15 Jul 2005 15:20:21 -0000
+@@ -295,7 +295,7 @@
+                         // attachment, but if the image would be null
+                         // (is.available == 0) then ImageIO component isn't needed
+                         // and we can return null.
+-                        InputStream is = (InputStream) handler.getContent();
++                        InputStream is = handler.getInputStream();
+                         if (is.available() == 0) {
+                             return null;
+                         }
+@@ -314,15 +314,14 @@
+                         // For a reason unknown to me, the handler's
+                         // content is a String.  Convert it to a
+                         // StreamSource.
+-                        return new StreamSource(new StringReader(
+-                                (String) handler.getContent()));
++                        return new StreamSource(handler.getInputStream());
+                     }
+                     else if (destClass == OctetStream.class || destClass == byte[].class) {
+                         InputStream in = null;
+                         if (arg instanceof InputStream) {
+                             in = (InputStream) arg;
+                         } else {
+-                            in = (InputStream)handler.getContent();
++                            in = handler.getInputStream();
+                         }
+                         ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                         int byte1 = -1;
+Index: src/org/apache/axis/encoding/ser/SourceDataHandlerDeserializer.java
+===================================================================
+RCS file: /home/cvspublic/ws-axis/java/src/org/apache/axis/encoding/ser/SourceDataHandlerDeserializer.java,v
+retrieving revision 1.4
+diff -u -r1.4 SourceDataHandlerDeserializer.java
+--- src/org/apache/axis/encoding/ser/SourceDataHandlerDeserializer.java	25 Feb 2004 14:02:37 -0000	1.4
++++ src/org/apache/axis/encoding/ser/SourceDataHandlerDeserializer.java	15 Jul 2005 15:20:21 -0000
+@@ -45,8 +45,7 @@
+         if (getValue() instanceof DataHandler) {
+             try {
+                 DataHandler dh = (DataHandler) getValue();
+-                StreamSource ss = new StreamSource(new StringReader(
+-                        (String) dh.getContent()));
++                StreamSource ss = new StreamSource(dh.getInputStream());
+                 setValue(ss);
+             }
+             catch (IOException ioe) {

@@ -1,0 +1,114 @@
+--- axis-1_2/src/org/apache/axis/handlers/ServiceInvocation.java	1970-01-01 01:00:00.000000000 +0100
++++ jonas-axis/src/org/apache/axis/handlers/ServiceInvocation.java	2005-01-25 15:02:00.000000000 +0000
+@@ -0,0 +1,111 @@
++
++package org.apache.axis.handlers;
++
++import java.util.Iterator;
++
++import javax.xml.soap.SOAPBody;
++import javax.xml.soap.SOAPElement;
++import javax.xml.soap.SOAPEnvelope;
++import javax.xml.soap.SOAPException;
++import javax.xml.soap.SOAPMessage;
++
++import org.apache.axis.MessageContext;
++
++
++
++/**
++ * Keep here the invocation info:
++ * operation + arguments.
++ * TODO This class should be in the jonas code.
++ * @author Ph Durieux
++ */
++public class ServiceInvocation {
++
++    /**
++     * @return Returns the argNames.
++     */
++    public String getArgNames() {
++        return argNames;
++    }
++    /**
++     * @param argNames The argNames to set.
++     */
++    public void setArgNames(String argNames) {
++        this.argNames = argNames;
++    }
++    /**
++     * @return Returns the methodName.
++     */
++    public String getMethodName() {
++        return methodName;
++    }
++    /**
++     * @param methodName The methodName to set.
++     */
++    public void setMethodName(String methodName) {
++        this.methodName = methodName;
++    }
++    /**
++     * @return Returns the numArgs.
++     */
++    public int getNumArgs() {
++        return numArgs;
++    }
++    /**
++     * @param numArgs The numArgs to set.
++     */
++    public void setNumArgs(int numArgs) {
++        this.numArgs = numArgs;
++    }
++    private String methodName = "";
++    private String argNames = "";
++    private int numArgs = -1;
++    
++    public ServiceInvocation(MessageContext msgContext) {
++
++        SOAPMessage  reqMsg  = msgContext.getMessage();
++        SOAPEnvelope reqEnv;
++        try {
++            reqEnv = reqMsg.getSOAPPart().getEnvelope();
++        } catch (SOAPException e1) {
++            e1.printStackTrace();
++            return;
++        }
++        SOAPBody body;
++        try {
++            body = reqEnv.getBody();
++        } catch (SOAPException e) {
++            e.printStackTrace();
++            return;
++        }
++        if (body == null) {
++            return;
++        }
++        Iterator it = body.getChildElements();
++        SOAPElement operation = (SOAPElement) it.next();
++        methodName = operation.getNodeName();
++        numArgs = 0;
++        for (Iterator i = operation.getChildElements(); i.hasNext();) {
++            SOAPElement elt = (SOAPElement) i.next();
++            numArgs++;
++            argNames += elt.getNodeName();
++        }
++    }
++
++    public boolean equals(Object obj) {
++       if (obj == null) {
++           return false;
++       }
++       return toString().equals(obj.toString());
++    }
++
++    public int hashCode() {
++       return numArgs;
++    }
++
++    public String toString() {
++       return "[method=" + methodName + ",Args=" + argNames + "]";
++    }
++
++}
++
